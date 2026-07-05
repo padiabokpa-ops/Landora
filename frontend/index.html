@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Landora – Find Your Land, Own Your Future</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      :root {
+        --green: #0B5C3A;
+        --green-light: #16A05F;
+        --gold: #C9933B;
+        --gold-light: #F5C46A;
+        --cream: #FAF8F3;
+        --dark: #111510;
+        --muted: #6B7280;
+        --border: #E5E0D6;
+        --ff-display: 'Fraunces', Georgia, serif;
+        --ff-body: 'DM Sans', sans-serif;
+        --radius: 12px;
+        --shadow: 0 2px 16px rgba(0,0,0,0.08);
+      }
+      body {
+        font-family: var(--ff-body);
+        background: var(--cream);
+        color: var(--dark);
+        line-height: 1.6;
+      }
+      a { text-decoration: none; color: inherit; }
+      img { max-width: 100%; }
+      button { cursor: pointer; font-family: var(--ff-body); }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
