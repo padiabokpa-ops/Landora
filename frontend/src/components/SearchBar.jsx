@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const STATES = ['Lagos', 'Abuja', 'Port Harcourt', 'Ibadan', 'Kano', 'Enugu', 'Benin City', 'Kaduna', 'Lekki', 'Ikoyi', 'Victoria Island', 'Ajah', 'Ikeja']
-const TYPES = ['', 'Sale', 'Rent', 'Shortlet']
-const PROPERTY_TYPES = ['', 'Apartment', 'House', 'Land', 'Commercial', 'Duplex', 'Bungalow']
+const TYPES = ['Sale', 'Rent', 'Shortlet']
+const PROPERTY_TYPES = ['Apartment', 'House', 'Land', 'Commercial', 'Duplex', 'Bungalow']
 
 export default function SearchBar({ inline = false }) {
   const [q, setQ] = useState('')
@@ -20,76 +19,106 @@ export default function SearchBar({ inline = false }) {
     navigate(`/listings?${params.toString()}`)
   }
 
-  const selectStyle = {
-    padding: '14px 16px',
-    border: inline ? 'none' : '1.5px solid var(--border)',
-    borderRadius: inline ? 0 : 8,
-    fontSize: 15,
-    background: 'white',
-    outline: 'none',
-    color: 'var(--text)',
-    cursor: 'pointer',
-    minWidth: 140
-  }
-
-  if (inline) {
-    return (
-      <form onSubmit={handleSearch} style={{
-        display: 'flex',
-        background: 'white',
-        borderRadius: 12,
-        overflow: 'hidden',
-        boxShadow: '0 8px 40px rgba(0,0,0,0.15)',
-      }}>
-        <input
-          type="text"
-          placeholder="Search by location, property type..."
-          value={q}
-          onChange={e => setQ(e.target.value)}
-          style={{
-            flex: 1,
-            padding: '16px 20px',
-            border: 'none',
-            fontSize: 15,
-            outline: 'none',
-            minWidth: 0
-          }}
-        />
-        <div style={{ width: 1, background: 'var(--border)', margin: '12px 0' }} />
-        <select value={listingType} onChange={e => setListingType(e.target.value)} style={selectStyle}>
-          <option value="">Any type</option>
-          {TYPES.slice(1).map(t => <option key={t} value={t}>{t}</option>)}
-        </select>
-        <div style={{ width: 1, background: 'var(--border)', margin: '12px 0' }} />
-        <select value={propertyType} onChange={e => setPropertyType(e.target.value)} style={selectStyle}>
-          <option value="">Any property</option>
-          {PROPERTY_TYPES.slice(1).map(t => <option key={t} value={t}>{t}</option>)}
-        </select>
-        <button type="submit" className="btn-primary" style={{ margin: 8, borderRadius: 8, whiteSpace: 'nowrap' }}>
-          🔍 Search
-        </button>
-      </form>
-    )
-  }
-
   return (
-    <form onSubmit={handleSearch} style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+    <form onSubmit={handleSearch} className={inline ? 'searchbar-inline' : 'searchbar-normal'}>
       <input
         type="text"
-        placeholder="Location or keyword..."
+        placeholder="Search by location, property type..."
         value={q}
         onChange={e => setQ(e.target.value)}
-        style={{ flex: 1, minWidth: 200, padding: '11px 16px', border: '1.5px solid var(--border)', borderRadius: 8, fontSize: 14, outline: 'none' }}
+        className="searchbar-input"
       />
-      <select value={listingType} onChange={e => setListingType(e.target.value)} style={{ ...selectStyle, border: '1.5px solid var(--border)', borderRadius: 8, padding: '11px 16px' }}>
-        <option value="">All types</option>
-        {TYPES.slice(1).map(t => <option key={t} value={t}>{t}</option>)}
+      <select value={listingType} onChange={e => setListingType(e.target.value)} className="searchbar-select">
+        <option value="">Any type</option>
+        {TYPES.map(t => <option key={t} value={t}>{t}</option>)}
       </select>
-      <select value={propertyType} onChange={e => setPropertyType(e.target.value)} style={{ ...selectStyle, border: '1.5px solid var(--border)', borderRadius: 8, padding: '11px 16px' }}>
-        <option value="">All properties</option>
-        {PROPERTY_TYPES.slice(1).map(t => <option key={t} value={t}>{t}</option>)}
+      <select value={propertyType} onChange={e => setPropertyType(e.target.value)} className="searchbar-select">
+        <option value="">Any property</option>
+        {PROPERTY_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
       </select>
-      <button type="submit" className="btn-primary">Search</button>
+      <button type="submit" className="btn-primary searchbar-btn">🔍 Search</button>
+
+      <style>{`
+        .searchbar-inline {
+          display: flex;
+          background: white;
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+          flex-wrap: wrap;
+        }
+        .searchbar-normal {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+        .searchbar-input {
+          flex: 1;
+          min-width: 160px;
+          padding: 16px 20px;
+          border: none;
+          font-size: 15px;
+          outline: none;
+        }
+        .searchbar-normal .searchbar-input {
+          border: 1.5px solid var(--border);
+          border-radius: 8px;
+          padding: 11px 16px;
+        }
+        .searchbar-select {
+          padding: 14px 16px;
+          border: none;
+          font-size: 15px;
+          background: white;
+          outline: none;
+          cursor: pointer;
+          min-width: 120px;
+        }
+        .searchbar-normal .searchbar-select {
+          border: 1.5px solid var(--border);
+          border-radius: 8px;
+          padding: 11px 16px;
+        }
+        .searchbar-btn {
+          margin: 8px;
+          border-radius: 8px;
+          white-space: nowrap;
+        }
+        .searchbar-normal .searchbar-btn {
+          margin: 0;
+        }
+
+        @media (max-width: 600px) {
+          .searchbar-inline {
+            flex-direction: column;
+            border-radius: 12px;
+            overflow: hidden;
+          }
+          .searchbar-inline .searchbar-input {
+            width: 100%;
+            border-bottom: 1px solid var(--border);
+            padding: 14px 16px;
+          }
+          .searchbar-inline .searchbar-select {
+            width: 100%;
+            border-bottom: 1px solid var(--border);
+            padding: 12px 16px;
+          }
+          .searchbar-inline .searchbar-btn {
+            width: calc(100% - 16px);
+            padding: 14px;
+            text-align: center;
+          }
+          .searchbar-normal {
+            flex-direction: column;
+          }
+          .searchbar-normal .searchbar-input,
+          .searchbar-normal .searchbar-select,
+          .searchbar-normal .searchbar-btn {
+            width: 100%;
+          }
+        }
+      `}</style>
     </form>
   )
 }
