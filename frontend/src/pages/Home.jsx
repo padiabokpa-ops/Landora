@@ -62,7 +62,7 @@ export default function Home() {
           background: 'url(https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80) center/cover',
           opacity: 0.15
         }} />
-        <div className="container" style={{ position: 'relative' }}>
+        <div className="container" style={{ position: 'relative', padding: '0 16px' }}>
           <div style={{ maxWidth: 640 }}>
             <div style={{ marginBottom: 16 }}>
               <span className="badge" style={{ background: 'rgba(255,255,255,0.15)', color: '#F5C46A', border: '1px solid rgba(255,255,255,0.2)', fontSize: 13 }}>
@@ -71,7 +71,7 @@ export default function Home() {
             </div>
             <h1 style={{
               fontFamily: 'var(--ff-display)',
-              fontSize: 'clamp(36px, 5vw, 62px)',
+              fontSize: 'clamp(32px, 5vw, 62px)',
               fontWeight: 700,
               lineHeight: 1.1,
               marginBottom: 20
@@ -79,7 +79,7 @@ export default function Home() {
               Find Your Land,<br />
               <span style={{ color: 'var(--gold-light)' }}>Own Your Future.</span>
             </h1>
-            <p style={{ fontSize: 18, opacity: 0.9, marginBottom: 36, lineHeight: 1.6 }}>
+            <p style={{ fontSize: 'clamp(15px, 2vw, 18px)', opacity: 0.9, marginBottom: 36, lineHeight: 1.6 }}>
               Whether you're in Lagos, London, or Los Angeles — discover verified properties,
               invest confidently, and own a piece of Nigeria.
             </p>
@@ -93,12 +93,12 @@ export default function Home() {
 
       {/* STATS */}
       <section style={{ background: 'white', padding: '40px 0', borderBottom: '1px solid var(--border)' }}>
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, textAlign: 'center' }}>
+        <div className="container" style={{ padding: '0 16px' }}>
+          <div className="stats-grid">
             {STATS.map(s => (
-              <div key={s.label}>
-                <div style={{ fontFamily: 'var(--ff-display)', fontSize: 32, fontWeight: 700, color: 'var(--green)' }}>{s.value}</div>
-                <div style={{ fontSize: 14, color: 'var(--muted)', marginTop: 4 }}>{s.label}</div>
+              <div key={s.label} style={{ textAlign: 'center' }}>
+                <div style={{ fontFamily: 'var(--ff-display)', fontSize: 'clamp(22px, 4vw, 32px)', fontWeight: 700, color: 'var(--green)' }}>{s.value}</div>
+                <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 4 }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -107,8 +107,8 @@ export default function Home() {
 
       {/* FEATURED LISTINGS */}
       <section style={{ padding: '80px 0' }}>
-        <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 40 }}>
+        <div className="container" style={{ padding: '0 16px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 40, flexWrap: 'wrap', gap: 16 }}>
             <div>
               <h2 className="section-title">Featured Properties</h2>
               <p className="section-sub">Handpicked, verified listings across Nigeria's top cities</p>
@@ -125,7 +125,7 @@ export default function Home() {
 
       {/* BROWSE BY LOCATION */}
       <section style={{ padding: '60px 0 80px', background: 'white' }}>
-        <div className="container">
+        <div className="container" style={{ padding: '0 16px' }}>
           <h2 className="section-title" style={{ marginBottom: 8 }}>Browse by Location</h2>
           <p className="section-sub" style={{ marginBottom: 40 }}>Nigeria's most active real estate markets</p>
           <div className="grid-3">
@@ -139,7 +139,8 @@ export default function Home() {
                 alignItems: 'center',
                 border: '1px solid transparent',
                 transition: 'box-shadow 0.2s, transform 0.2s'
-              }} onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = 'var(--shadow)' }}
+              }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = 'var(--shadow)' }}
                 onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '' }}>
                 <div>
                   <h3 style={{ fontSize: 20, fontWeight: 700, color: 'var(--dark)', fontFamily: 'var(--ff-display)' }}>{loc.name}</h3>
@@ -158,10 +159,10 @@ export default function Home() {
         padding: '60px 0',
         color: 'white'
       }}>
-        <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 40, flexWrap: 'wrap' }}>
+        <div className="container" style={{ padding: '0 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 32, flexWrap: 'wrap' }}>
           <div style={{ maxWidth: 560 }}>
             <span style={{ fontSize: 13, fontWeight: 600, opacity: 0.85, textTransform: 'uppercase', letterSpacing: '0.05em' }}>For Nigerians Abroad</span>
-            <h2 style={{ fontFamily: 'var(--ff-display)', fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 700, margin: '12px 0 16px', lineHeight: 1.2 }}>
+            <h2 style={{ fontFamily: 'var(--ff-display)', fontSize: 'clamp(24px, 4vw, 44px)', fontWeight: 700, margin: '12px 0 16px', lineHeight: 1.2 }}>
               Invest in Nigeria from Anywhere in the World
             </h2>
             <p style={{ fontSize: 16, opacity: 0.9, lineHeight: 1.7 }}>
@@ -184,7 +185,7 @@ export default function Home() {
 
       {/* WHY LANDORA */}
       <section style={{ padding: '80px 0' }}>
-        <div className="container">
+        <div className="container" style={{ padding: '0 16px' }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <h2 className="section-title">Why Nigerians Choose Landora</h2>
             <p className="section-sub">Built for trust, speed, and safety in the Nigerian market</p>
@@ -208,11 +209,11 @@ export default function Home() {
 
       {/* CTA */}
       <section style={{ background: 'var(--green)', color: 'white', padding: '72px 0', textAlign: 'center' }}>
-        <div className="container">
-          <h2 style={{ fontFamily: 'var(--ff-display)', fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 700, marginBottom: 16 }}>
+        <div className="container" style={{ padding: '0 16px' }}>
+          <h2 style={{ fontFamily: 'var(--ff-display)', fontSize: 'clamp(26px, 4vw, 44px)', fontWeight: 700, marginBottom: 16 }}>
             Ready to Find Your Property?
           </h2>
-          <p style={{ fontSize: 17, opacity: 0.85, marginBottom: 36, maxWidth: 500, margin: '0 auto 36px' }}>
+          <p style={{ fontSize: 17, opacity: 0.85, maxWidth: 500, margin: '0 auto 36px' }}>
             Join over 45,000 Nigerians who've found their dream property on Landora.
           </p>
           <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -221,6 +222,24 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <style>{`
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 24px;
+          text-align: center;
+        }
+        @media (max-width: 600px) {
+          .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+          }
+          .grid-3 {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }
