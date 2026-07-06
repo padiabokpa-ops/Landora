@@ -33,6 +33,7 @@ export default function Listings() {
   const [verifiedOnly, setVerifiedOnly] = useState(false)
   const [minPrice, setMinPrice] = useState('')
   const [maxPrice, setMaxPrice] = useState('')
+  const [showFilters, setShowFilters] = useState(false)
 
   useEffect(() => {
     fetchProperties()
@@ -60,90 +61,123 @@ export default function Listings() {
     }
   }
 
+  const Sidebar = () => (
+    <aside style={{
+      background: 'white',
+      borderRadius: 16,
+      padding: 24,
+      border: '1px solid var(--border)',
+    }}>
+      <h3 style={{ fontWeight: 700, marginBottom: 20, fontSize: 16 }}>Filter Results</h3>
+
+      <div style={{ marginBottom: 24 }}>
+        <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Listing Type</p>
+        {['Sale', 'Rent', 'Shortlet'].map(t => (
+          <label key={t} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, cursor: 'pointer', fontSize: 14 }}>
+            <input type="checkbox"
+              checked={searchParams.get('listing_type') === t}
+              onChange={() => {
+                const p = new URLSearchParams(searchParams)
+                p.get('listing_type') === t ? p.delete('listing_type') : p.set('listing_type', t)
+                setSearchParams(p)
+              }} />
+            {t}
+          </label>
+        ))}
+      </div>
+
+      <div style={{ marginBottom: 24 }}>
+        <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Property Type</p>
+        {['Apartment', 'House', 'Land', 'Commercial', 'Duplex', 'Bungalow'].map(t => (
+          <label key={t} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, cursor: 'pointer', fontSize: 14 }}>
+            <input type="checkbox"
+              checked={searchParams.get('property_type') === t}
+              onChange={() => {
+                const p = new URLSearchParams(searchParams)
+                p.get('property_type') === t ? p.delete('property_type') : p.set('property_type', t)
+                setSearchParams(p)
+              }} />
+            {t}
+          </label>
+        ))}
+      </div>
+
+      <div style={{ marginBottom: 24 }}>
+        <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Price Range (₦)</p>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <input placeholder="Min" value={minPrice} onChange={e => setMinPrice(e.target.value)}
+            style={{ width: '50%', padding: '9px 12px', border: '1.5px solid var(--border)', borderRadius: 7, fontSize: 14, outline: 'none' }} />
+          <input placeholder="Max" value={maxPrice} onChange={e => setMaxPrice(e.target.value)}
+            style={{ width: '50%', padding: '9px 12px', border: '1.5px solid var(--border)', borderRadius: 7, fontSize: 14, outline: 'none' }} />
+        </div>
+      </div>
+
+      <div style={{ marginBottom: 24 }}>
+        <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Special Tags</p>
+        <label style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, cursor: 'pointer', fontSize: 14 }}>
+          <input type="checkbox" checked={verifiedOnly} onChange={e => setVerifiedOnly(e.target.checked)} />
+          Verified only
+        </label>
+        <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', fontSize: 14 }}>
+          <input type="checkbox" checked={diasporaOnly} onChange={e => setDiasporaOnly(e.target.checked)} />
+          Diaspora friendly
+        </label>
+      </div>
+
+      <button className="btn-primary" style={{ width: '100%' }}
+        onClick={() => { fetchProperties(); setShowFilters(false) }}>
+        Apply Filters
+      </button>
+    </aside>
+  )
+
   return (
     <div style={{ background: 'var(--cream)', minHeight: '100vh' }}>
-      {/* TOP BAR */}
+      {/* TOP SEARCH BAR */}
       <div style={{ background: 'white', borderBottom: '1px solid var(--border)', padding: '20px 0' }}>
-        <div className="container">
+        <div className="container" style={{ padding: '0 16px' }}>
           <SearchBar />
         </div>
       </div>
 
-      <div className="container" style={{ padding: '32px 24px' }}>
-        <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start' }}>
-          {/* SIDEBAR FILTERS */}
-          <aside style={{
-            width: 260,
-            flexShrink: 0,
+      <div className="container" style={{ padding: '24px 16px' }}>
+
+        {/* MOBILE FILTER TOGGLE */}
+        <button
+          className="mobile-filter-btn"
+          onClick={() => setShowFilters(!showFilters)}
+          style={{
+            display: 'none',
+            width: '100%',
+            padding: '12px',
+            marginBottom: 16,
             background: 'white',
-            borderRadius: 16,
-            padding: 24,
-            border: '1px solid var(--border)',
-            position: 'sticky',
-            top: 88
-          }} className="filters-sidebar">
-            <h3 style={{ fontWeight: 700, marginBottom: 20, fontSize: 16 }}>Filter Results</h3>
+            border: '1.5px solid var(--green)',
+            borderRadius: 10,
+            color: 'var(--green)',
+            fontWeight: 600,
+            fontSize: 15,
+            cursor: 'pointer'
+          }}>
+          {showFilters ? '✕ Hide Filters' : '⚙ Show Filters'}
+        </button>
 
-            <div style={{ marginBottom: 24 }}>
-              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Listing Type</p>
-              {['Sale', 'Rent', 'Shortlet'].map(t => (
-                <label key={t} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, cursor: 'pointer', fontSize: 14 }}>
-                  <input type="checkbox"
-                    checked={searchParams.get('listing_type') === t}
-                    onChange={() => {
-                      const p = new URLSearchParams(searchParams)
-                      p.get('listing_type') === t ? p.delete('listing_type') : p.set('listing_type', t)
-                      setSearchParams(p)
-                    }} />
-                  {t}
-                </label>
-              ))}
-            </div>
+        {/* MOBILE FILTERS (shown when toggled) */}
+        {showFilters && (
+          <div className="mobile-sidebar">
+            <Sidebar />
+          </div>
+        )}
 
-            <div style={{ marginBottom: 24 }}>
-              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Property Type</p>
-              {['Apartment', 'House', 'Land', 'Commercial', 'Duplex', 'Bungalow'].map(t => (
-                <label key={t} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, cursor: 'pointer', fontSize: 14 }}>
-                  <input type="checkbox"
-                    checked={searchParams.get('property_type') === t}
-                    onChange={() => {
-                      const p = new URLSearchParams(searchParams)
-                      p.get('property_type') === t ? p.delete('property_type') : p.set('property_type', t)
-                      setSearchParams(p)
-                    }} />
-                  {t}
-                </label>
-              ))}
-            </div>
-
-            <div style={{ marginBottom: 24 }}>
-              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Price Range (₦)</p>
-              <div style={{ display: 'flex', gap: 8 }}>
-                <input placeholder="Min" value={minPrice} onChange={e => setMinPrice(e.target.value)}
-                  style={{ width: '50%', padding: '9px 12px', border: '1.5px solid var(--border)', borderRadius: 7, fontSize: 14, outline: 'none' }} />
-                <input placeholder="Max" value={maxPrice} onChange={e => setMaxPrice(e.target.value)}
-                  style={{ width: '50%', padding: '9px 12px', border: '1.5px solid var(--border)', borderRadius: 7, fontSize: 14, outline: 'none' }} />
-              </div>
-            </div>
-
-            <div style={{ marginBottom: 24 }}>
-              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Special Tags</p>
-              <label style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, cursor: 'pointer', fontSize: 14 }}>
-                <input type="checkbox" checked={verifiedOnly} onChange={e => setVerifiedOnly(e.target.checked)} />
-                Verified only
-              </label>
-              <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', fontSize: 14 }}>
-                <input type="checkbox" checked={diasporaOnly} onChange={e => setDiasporaOnly(e.target.checked)} />
-                Diaspora friendly
-              </label>
-            </div>
-
-            <button className="btn-primary" style={{ width: '100%' }} onClick={fetchProperties}>Apply Filters</button>
-          </aside>
+        <div className="listings-layout">
+          {/* DESKTOP SIDEBAR */}
+          <div className="desktop-sidebar" style={{ position: 'sticky', top: 88 }}>
+            <Sidebar />
+          </div>
 
           {/* RESULTS */}
-          <div style={{ flex: 1 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
               <p style={{ color: 'var(--muted)', fontSize: 15 }}>
                 <strong style={{ color: 'var(--dark)' }}>{total}</strong> properties found
               </p>
@@ -180,6 +214,29 @@ export default function Listings() {
           </div>
         </div>
       </div>
+
+      <style>{`
+        .listings-layout {
+          display: grid;
+          grid-template-columns: 260px 1fr;
+          gap: 32px;
+          align-items: flex-start;
+        }
+        .mobile-sidebar { display: block; margin-bottom: 16px; }
+        .mobile-filter-btn { display: none; }
+        .desktop-sidebar { display: block; }
+
+        @media (max-width: 768px) {
+          .listings-layout {
+            grid-template-columns: 1fr !important;
+          }
+          .desktop-sidebar { display: none !important; }
+          .mobile-filter-btn { display: block !important; }
+          .grid-3 {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }
